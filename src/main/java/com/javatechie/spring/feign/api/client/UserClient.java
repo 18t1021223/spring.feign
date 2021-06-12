@@ -1,16 +1,16 @@
 package com.javatechie.spring.feign.api.client;
 
-import java.util.List;
-
+import com.javatechie.spring.feign.api.dto.Post;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javatechie.spring.feign.api.dto.UserResponse;
+import java.util.List;
 
 @FeignClient(url="https://jsonplaceholder.typicode.com",name="USER-CLIENT")
 public interface UserClient {
 
-	@GetMapping("/users")
-	public List<UserResponse> getUsers();
+	@RequestMapping(method = RequestMethod.GET, value = "/posts")
+	List<Post> getPosts();
 	
 }
