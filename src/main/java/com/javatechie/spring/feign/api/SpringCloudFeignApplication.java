@@ -11,8 +11,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
@@ -24,8 +28,11 @@ public class SpringCloudFeignApplication {
     private RequestLoginClient requestLoginClient;
 
     @GetMapping("/initRequest")
-    public RequestLogin initRequest() {
-        return requestLoginClient.loginClient("anh_anh", "123123");
+    public RequestLogin initRequest(HttpServletRequest req) {
+        Map<String, Object> headers = Collections.list(req.getHeaderNames())
+                .stream()
+                .collect(Collectors.toMap(name -> name, req::getHeader));
+        return requestLoginClient.loginClient(headers, "anh_anh", "123123");
     }
 
     @GetMapping("/findAllPost")

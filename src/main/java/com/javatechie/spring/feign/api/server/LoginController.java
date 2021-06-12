@@ -1,15 +1,15 @@
 package com.javatechie.spring.feign.api.server;
 
 import com.javatechie.spring.feign.api.dto.RequestLogin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public RequestLogin login(@RequestParam String user, @RequestParam String pass) {
+    public RequestLogin login(@RequestHeader Map<String, Object> headers, @RequestParam String user, @RequestParam String pass) {
+        headers.forEach((k, v) -> System.out.println(k + ": " + v));
         return new RequestLogin(user, pass);
     }
 }
